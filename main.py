@@ -59,6 +59,17 @@ def pick():
     return ranked[0]
 
 
+def explain(word):
+    """One line per judging axis, so the choice can be audited, not trusted."""
+    fit, funny, true, fresh = CANDIDATES[word]
+    return (
+        f"{word}: fit {fit}/5 (it is the signal itself, not a metaphor), "
+        f"funny {funny}/5 (a network that confesses its own weakness), "
+        f"true {true}/5 (everyone has lived the one-bar list), "
+        f"fresh {fresh}/5 (self-deprecation, not a tech pun)"
+    )
+
+
 def get_entry():
     """Return the entry word, verified against the scoring table."""
     word = pick()
@@ -70,9 +81,7 @@ def get_entry():
 def main():
     word = get_entry()
     print(word)
-    print(f"score {score(word)}/20 — fit {CANDIDATES[word][0]}, "
-          f"funny {CANDIDATES[word][1]}, true {CANDIDATES[word][2]}, "
-          f"fresh {CANDIDATES[word][3]}")
+    print(explain(word))
     # The bounty scores /output/entry.txt, so write the same word there too
     # (MAKEFUN_OUTPUT_DIR names that directory when the grader sets it).
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
